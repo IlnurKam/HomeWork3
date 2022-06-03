@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Assembly>"C:\Program Files\RevitAPITraining\ClassLibrary1.dll"</Assembly>
+		<AddInId>427F8786-F3D4-4F1F-8BB2-A3F0DCB674DD</AddInId>
+		<FullClassName>ClassLibrary1.Main</FullClassName>
+		<VendorId>ADSK</VendorId>
+		<Text>Создание модели</Text>
+	</AddIn>
+</RevitAddIns>

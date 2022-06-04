@@ -1,5 +1,6 @@
-﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
@@ -53,9 +54,32 @@ namespace HomeWork3
                 wall.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE).Set(level2.Id);
             }
 
+            AddWindows(doc, level1, walls[0]);
             transaction.Commit();
 
             return Result.Succeeded;
         }
+
+        private void AddWindows(Document doc, Level level1, Wall wall)
+        {
+            FamilySymbol windowsType=new FilteredElementCollector(doc)
+                .OfClass(typeof(FamilySymbol))
+                .OfCategory(BuiltInCategory.OST_Windows)
+                .OfType<FamilySymbol>()
+                .Where(x => x.Name.Equals("0610 x 0610 мм"))
+                .Where(x => x.FamilyName.Equals("Фиксированные"))
+                .FirstOrDefault();
+
+            LocationCurve hostCurve= wall.Location as LocationCurve;
+            XYZ point1 = hostCurve.Curve.GetEndPoint(0);
+            XYZ point2 = hostCurve.Curve.GetEndPoint(1);
+            XYZ point = (point1-point2)/2;
+
+            if (!windowsType.IsActive)
+                windowsType.Activate();
+
+            doc.Create.NewFamilyInstance(point, windowsType, wall, level1, StructuralType.NonStructural);
+        }
     }
 }
+

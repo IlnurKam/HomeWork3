@@ -44,20 +44,23 @@ namespace HomeWork3
 
             List<Wall> walls = new List<Wall>();
 
+            return Result.Succeeded;
+        }
+        public void CreateWalls(Document doc, Level level1, Wall wall)
+        {
             Transaction transaction = new Transaction(doc, "Построение стен");
             transaction.Start();
-            for (int i=0;i<4;i++)
+            for (int i = 0; i < 4; i++)
             {
                 Line line = Line.CreateBound(points[i], points[i + 1]);
-                Wall wall = Wall.Create(doc, line, level1.Id, false);
+                Wall wall1 = Wall.Create(doc, line, level1.Id, false);
+                Wall wall = wall1;
                 walls.Add(wall);
                 wall.get_Parameter(BuiltInParameter.WALL_HEIGHT_TYPE).Set(level2.Id);
             }
 
             AddWindows(doc, level1, walls[0]);
             transaction.Commit();
-
-            return Result.Succeeded;
         }
 
         private void AddWindows(Document doc, Level level1, Wall wall)
@@ -82,4 +85,5 @@ namespace HomeWork3
         }
     }
 }
+
 
